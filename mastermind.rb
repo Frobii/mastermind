@@ -27,16 +27,18 @@ module Play_Game
 
         clues = "Clues: "
 
-        if (solution - guess).length == 3
-            puts clues + "●"
-        elsif (solution - guess).length == 2
-            puts clues + "● ●"
-        elsif (solution - guess).length == 1
-            puts clues + "● ● ●"
-        elsif (solution - guess).length == 0
-            puts "The code has been cracked!"
-        end
+        i = 0
+        until i == 4
+            if solution[i] == guess[i] # checks for the right number in the right position
+                clues += "● "
+            end
 
+            i += 1
+
+            if i == 4 # on the last iteration, print the result of the guess
+                puts clues
+            end
+        end
     end
 
 end
