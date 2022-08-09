@@ -31,8 +31,15 @@ module Play_Game
         until i == 4
             if solution[i] == guess[i] # checks for the right number in the right position
                 clues += "● "
+            elsif solution[0] == guess[i]  # checks for the right number in the wrong position
+                clues += "○ "
+            elsif solution[1] == guess[i]
+                clues += "○ "
+            elsif solution[2] == guess[i]
+                clues += "○ "
+            elsif solution[3] == guess[i]
+                clues += "○ "
             end
-
             i += 1
 
             if i == 4 # on the last iteration, print the result of the guess
