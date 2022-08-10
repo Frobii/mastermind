@@ -40,13 +40,13 @@ module Play_Game
         until i == 4
             if solution[i] == guess[i] # checks for the right number in the right position
                 clues += "● "
-            elsif solution[0] == guess[i]  # checks for the right number in the wrong position
+            elsif solution[0] == guess[i] && guess[0] != solution[0]  # checks for the right number in the wrong position
                 clues += "○ "
-            elsif solution[1] == guess[i]
+            elsif solution[1] == guess[i] && guess[1] != solution[1]
                 clues += "○ "
-            elsif solution[2] == guess[i]
+            elsif solution[2] == guess[i] && guess[2] != solution[2]
                 clues += "○ "
-            elsif solution[3] == guess[i]
+            elsif solution[3] == guess[i] && guess[3] != solution[3]
                 clues += "○ "
             end
             i += 1
@@ -92,4 +92,10 @@ puts computer.add_color(computer.randomPicks).join("")
 
 player1 = Player.new
 
-player1.play_round(computerSolution)
+i = 0
+
+until i == 12
+    player1.play_round(computerSolution)
+    puts "\n"
+    i += 1
+end
