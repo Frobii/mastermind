@@ -22,12 +22,21 @@ end
 
 module Play_Game
     def play_round(solution)
-        puts "Enter four numbers:"
+        puts "Enter four numbers between 1-6:"
         guess = gets.chomp.to_s.split("")
+        puts "\n"
+
+        if guess.join.to_i >= 7000 || guess.join.to_i < 1000
+            puts "\n"
+            puts "Invalid Input".red
+            puts "\n"
+            play_round(solution)
+            return
+        end
 
         clues = "Clues: "
-
         i = 0
+        
         until i == 4
             if solution[i] == guess[i] # checks for the right number in the right position
                 clues += "● "
