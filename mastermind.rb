@@ -56,6 +56,7 @@ module Play_Game
 
             if i == 4 # on the last iteration, print the result of the @guess
                 puts clues
+                return clues
             end
         end
     end
@@ -91,7 +92,7 @@ computer.pick_numbers()
 
 computerSolution = computer.randomPicks # used for the play_round method
 
-puts computer.add_color(computer.randomPicks).join("")
+# puts computer.add_color(computer.randomPicks).join("") # displays the solution in color
 
 
 player1 = Player.new
@@ -100,9 +101,18 @@ i = 1
 
 until i == 13
     puts "Guess #{i} / 12".green
-    roundResult = player1.play_round(computerSolution)
+    if player1.play_round(computerSolution) == "● ● ● ● "
+        puts "\n"
+        puts player1.add_color(player1.guess).join("")
+        puts "\n"
+        puts "You cracked the code!".green
+        break
+    end
     puts "\n"
     puts player1.add_color(player1.guess).join("")
     puts "\n"
+    if i == 12
+        puts "You couldn't crack the code in time.".red
+    end
     i += 1
 end
