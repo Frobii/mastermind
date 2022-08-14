@@ -80,12 +80,22 @@ class Computer
 
     def random_guess()
         @randomGuess = []
-        i = 0
-        until i == 4
+
+        until @randomGuess.length == 4
             @randomGuess.push(rand(1..6).to_s)
-            i += 1
         end
+        
         return @randomGuess
+    end
+
+    def re_guess()
+        @reGuess = []
+
+        until @reGuess.length == 4
+            @reGuess = @reGuess.push(rand(1..6).to_s) - @randomGuess
+        end
+
+        return @reGuess
     end
 
 end
@@ -124,4 +134,12 @@ def player_vs_computer()
 
 end
 
-player_vs_computer()
+# player_vs_computer()
+
+cpu = Computer.new
+
+puts cpu.random_guess()
+
+puts "\n"
+
+puts cpu.re_guess()
