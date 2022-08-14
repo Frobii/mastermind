@@ -78,6 +78,16 @@ class Computer
         end
     end
 
+    def random_guess()
+        @randomGuess = []
+        i = 0
+        until i == 4
+            @randomGuess.push(rand(1..6).to_s)
+            i += 1
+        end
+        return @randomGuess
+    end
+
 end
 
 class Player
@@ -86,33 +96,32 @@ class Player
 end
 
 
-computer = Computer.new
+def player_vs_computer()
+    player1 = Player.new
+    computer = Computer.new
 
-computer.pick_numbers()
+    computer.pick_numbers()
+    computerSolution = computer.randomPicks
 
-computerSolution = computer.randomPicks # used for the play_round method
-
-# puts computer.add_color(computer.randomPicks).join("") # displays the solution in color
-
-
-player1 = Player.new
-
-i = 1
-
-until i == 13
-    puts "Guess #{i} / 12".green
-    if player1.play_round(computerSolution) == "● ● ● ● "
+    i = 1
+    until i == 13
+        puts "Guess #{i} / 12".green
+        if player1.play_round(computerSolution) == "● ● ● ● "
+            puts "\n"
+            puts player1.add_color(player1.guess).join("")
+            puts "\n"
+            puts "You cracked the code!".green
+            break
+        end
         puts "\n"
         puts player1.add_color(player1.guess).join("")
         puts "\n"
-        puts "You cracked the code!".green
-        break
+        if i == 12
+            puts "You couldn't crack the code in time.".red
+        end
+        i += 1
     end
-    puts "\n"
-    puts player1.add_color(player1.guess).join("")
-    puts "\n"
-    if i == 12
-        puts "You couldn't crack the code in time.".red
-    end
-    i += 1
+
 end
+
+player_vs_computer()
