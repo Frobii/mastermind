@@ -65,6 +65,7 @@ end
 
 class Computer
     include Color_Numbers
+    include Play_Game
 
     attr_reader :randomPicks
     attr_writer :randomPicks
@@ -84,7 +85,7 @@ class Computer
         until @randomGuess.length == 4
             @randomGuess.push(rand(1..6).to_s)
         end
-        
+
         return @randomGuess
     end
 
@@ -103,6 +104,20 @@ end
 class Player
     include Play_Game
     include Color_Numbers
+
+    def create_code()
+        puts "Enter a four digit code of numbers 1-6 for the computer to crack: "
+        @playerCode = gets.chomp.to_s.split("")
+
+        if @playerCode.join.to_i >= 7000 || @playerCode.join.to_i < 1000
+            puts "\n"
+            puts "Invalid Input".red
+            puts "\n"
+            create_code()
+            return
+        end
+    end
+    
 end
 
 
@@ -143,3 +158,7 @@ puts cpu.random_guess()
 puts "\n"
 
 puts cpu.re_guess()
+
+p1 = Player.new
+
+p1.create_code
