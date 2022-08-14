@@ -23,7 +23,7 @@ end
 module Play_Game
     attr_reader :guess
 
-    def play_round(solution)
+    def human_play(solution)
         puts "Enter four numbers between 1-6:"
         @guess = gets.chomp.to_s.split("")
         puts "\n"
@@ -32,7 +32,7 @@ module Play_Game
             puts "\n"
             puts "Invalid Input".red
             puts "\n"
-            play_round(solution)
+            human_play(solution)
             return
         end
 
@@ -49,6 +49,43 @@ module Play_Game
             elsif solution[2] == @guess[i] && @guess[2] != solution[2]
                 clues += "○ "
             elsif solution[3] == @guess[i] && @guess[3] != solution[3]
+                clues += "○ "
+            end
+
+            i += 1
+
+            if i == 4 # on the last iteration, print the result of the @guess
+                puts clues
+                return clues
+            end
+        end
+    end
+
+    def computer_play(solution, guess)
+
+        puts "\n"
+
+        if guess.join.to_i >= 7000 || guess.join.to_i < 1000
+            puts "\n"
+            puts "Invalid Input".red
+            puts "\n"
+            human_play(solution)
+            return
+        end
+
+        clues = ""
+        i = 0
+        
+        until i == 4
+            if solution[i] == guess[i] # checks for the right number in the right position
+                clues += "● "
+            elsif solution[0] == guess[i] && guess[0] != solution[0]  # checks for the right number in the wrong position
+                clues += "○ "
+            elsif solution[1] == guess[i] && guess[1] != solution[1]
+                clues += "○ "
+            elsif solution[2] == guess[i] && guess[2] != solution[2]
+                clues += "○ "
+            elsif solution[3] == guess[i] && guess[3] != solution[3]
                 clues += "○ "
             end
 
@@ -116,8 +153,10 @@ class Player
             create_code()
             return
         end
+
+        return @playerCode
     end
-    
+
 end
 
 
@@ -131,7 +170,7 @@ def player_vs_computer()
     i = 1
     until i == 13
         puts "Guess #{i} / 12".green
-        if player1.play_round(computerSolution) == "● ● ● ● "
+        if player1.human_play(computerSolution) == "● ● ● ● "
             puts "\n"
             puts player1.add_color(player1.guess).join("")
             puts "\n"
@@ -161,4 +200,4 @@ puts cpu.re_guess()
 
 p1 = Player.new
 
-p1.create_code
+cpu.computer_play(p1.create_code, cpu.random_guess)
