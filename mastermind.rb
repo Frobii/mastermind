@@ -22,6 +22,7 @@ end
 
 module Play_Game
     attr_reader :guess
+    attr_reader :clues
 
     def human_play(solution)
         puts "Enter four numbers between 1-6:"
@@ -36,27 +37,27 @@ module Play_Game
             return
         end
 
-        clues = ""
+        @clues = ""
         i = 0
         
         until i == 4
             if solution[i] == @guess[i] # checks for the right number in the right position
-                clues += "● "
+                @clues += "● "
             elsif solution[0] == @guess[i] && @guess[0] != solution[0]  # checks for the right number in the wrong position
-                clues += "○ "
+                @clues += "○ "
             elsif solution[1] == @guess[i] && @guess[1] != solution[1]
-                clues += "○ "
+                @clues += "○ "
             elsif solution[2] == @guess[i] && @guess[2] != solution[2]
-                clues += "○ "
+                @clues += "○ "
             elsif solution[3] == @guess[i] && @guess[3] != solution[3]
-                clues += "○ "
+                @clues += "○ "
             end
 
             i += 1
 
             if i == 4 # on the last iteration, print the result of the @guess
-                puts clues
-                return clues
+                puts @clues
+                return @clues
             end
         end
     end
@@ -73,29 +74,30 @@ module Play_Game
             return
         end
 
-        clues = ""
+        @clues = ""
         i = 0
         
         until i == 4
             if solution[i] == guess[i] # checks for the right number in the right position
-                clues += "● "
+                @clues += "● "
             elsif solution[0] == guess[i] && guess[0] != solution[0]  # checks for the right number in the wrong position
-                clues += "○ "
+                @clues += "○ "
             elsif solution[1] == guess[i] && guess[1] != solution[1]
-                clues += "○ "
+                @clues += "○ "
             elsif solution[2] == guess[i] && guess[2] != solution[2]
-                clues += "○ "
+                @clues += "○ "
             elsif solution[3] == guess[i] && guess[3] != solution[3]
-                clues += "○ "
+                @clues += "○ "
             end
 
             i += 1
 
             if i == 4 # on the last iteration, print the result of the @guess
-                puts clues
-                return clues
+                puts @clues
+                return @clues
             end
         end
+        
     end
 
 end
@@ -104,8 +106,9 @@ class Computer
     include Color_Numbers
     include Play_Game
 
-    attr_reader :randomPicks
+    attr_reader :randomPicks, :randomGuess
     attr_writer :randomPicks
+
 
     def pick_numbers()
         @randomPicks = []
@@ -130,10 +133,77 @@ class Computer
         @reGuess = []
 
         until @reGuess.length == 4
-            @reGuess = @reGuess.push(rand(1..6).to_s) - @randomGuess
+            @reGuess.push(rand(1..6).to_s) - @randomGuess
         end
 
         return @reGuess
+    end
+
+    def check_guess(guess, clues) # replaces incorrect characters & positions with new numbers
+        correctPositions = clues.count("●")
+        correctCharacters = clues.count("○")
+
+        p correctPositions.to_s + " correct positions"
+        p correctCharacters.to_s + " correct characters"
+
+        correctTotal = correctCharacters + correctPositions
+
+
+        def decrementRandom(array)
+            if array.length == 4
+                return rand(0..3)
+            elsif array.length == 3
+                return rand(0..2)
+            elsif array.length == 2
+                return rand(0..1)
+            end
+        end
+
+        def fillGuess(guess, deletions)
+            until guess.length == 4
+                guess = guess.push(rand(1..6).to_s) - deletions
+            end
+        end
+
+        if correctTotal == 1
+            randomDeletion = []
+            i = 0
+
+            until i == 3
+                randomDeletion.push(guess.delete_at(decrementRandom(guess)))
+                i += 1
+            end
+
+            fillGuess(guess, randomDeletion)
+
+        elsif correctTotal == 2
+            randomDeletion = []
+            i = 0
+
+            until i == 2
+                randomDeletion.push(guess.delete_at(decrementRandom(guess)))
+                i += 1
+            end
+
+            fillGuess(guess, randomDeletion)
+
+        elsif correctTotal == 3
+            randomDeletion = []
+
+            randomDeletion.push(guess.delete_at(decrementRandom(guess)))
+
+            fillGuess(guess, randomDeletion)
+
+        elsif correctTotal == 4 
+            if correctCharacters == 4
+                guess = guess.shuffle()
+            elsif correctPositions == 4
+                puts "The CPU cracked your code!"
+            end
+        end
+
+        p guess
+       
     end
 
 end
@@ -142,11 +212,13 @@ class Player
     include Play_Game
     include Color_Numbers
 
+    attr_reader :playerCode
+
     def create_code()
         puts "Enter a four digit code of numbers 1-6 for the computer to crack: "
         @playerCode = gets.chomp.to_s.split("")
 
-        if @playerCode.join.to_i >= 7000 || @playerCode.join.to_i < 1000
+        if @playerCode.join.to_i >= 7000 || @playerCode.join.to_i < 1111
             puts "\n"
             puts "Invalid Input".red
             puts "\n"
@@ -192,12 +264,12 @@ end
 
 cpu = Computer.new
 
-puts cpu.random_guess()
-
-puts "\n"
-
-puts cpu.re_guess()
-
 p1 = Player.new
 
-cpu.computer_play(p1.create_code, cpu.random_guess)
+p1.create_code
+
+p cpu.random_guess
+
+cpu.computer_play(p1.playerCode, cpu.randomGuess)
+
+cpu.check_guess(cpu.randomGuess, cpu.clues)
