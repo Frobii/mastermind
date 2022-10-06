@@ -1,27 +1,7 @@
 # frozen_string_literal: true
 
 require 'colorize' # a ruby gem which simplifies making terminal text colored
-
-module Color_Numbers
-  def add_color(array)
-    array.map do |number|
-      case number
-      when '1'
-        "#{number.red} " # add spaces to make the output easier to read
-      when '2'
-        "#{number.yellow} "
-      when '3'
-        "#{number.blue} "
-      when '4'
-        "#{number.green} "
-      when '5'
-        "#{number.cyan} "
-      when '6'
-        "#{number.magenta} "
-      end
-    end
-  end
-end
+require './color_numbers'
 
 module Play_Game
   attr_reader :guess, :clues
