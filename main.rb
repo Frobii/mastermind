@@ -4,7 +4,7 @@ require 'colorize' # a ruby gem which simplifies making terminal text colored
 require './color_numbers'
 
 module Play_Game
-  attr_reader :guess, :clues
+  attr_reader :guess, :clues, :pos1, :pos2, :pos3, :pos4
 
   def human_play(solution)
     puts 'Enter four numbers between 1-6:'
@@ -20,18 +20,22 @@ module Play_Game
     end
 
     @clues = ''
-    i = 0
+    @pos1 = false # these are used to ensure that a correct number doesn't add multiple black clues
+    @pos2 = false
+    @pos3 = false
+    @pos4 = false
 
+    i = 0
     until i == 4
-      if solution[i] == @guess[i] # checks for the right number in the right position
+      if solution[i] == guess[i] # checks for the right number in the right position
         @clues += '● '
-      elsif solution[0] == @guess[i] && @guess[0] != solution[0] # checks for the right number in the wrong position
+      elsif solution[0] == guess[i] && guess[0] != solution[0] && @pos1 == false # checks for the right number in the wrong position
         @clues += '○ '
-      elsif solution[1] == @guess[i] && @guess[1] != solution[1]
+      elsif solution[1] == guess[i] && guess[1] != solution[1] && @pos2 == false
         @clues += '○ '
-      elsif solution[2] == @guess[i] && @guess[2] != solution[2]
+      elsif solution[2] == guess[i] && guess[2] != solution[2] && @pos3 == false
         @clues += '○ '
-      elsif solution[3] == @guess[i] && @guess[3] != solution[3]
+      elsif solution[3] == guess[i] && guess[3] != solution[3] && @pos4 == false
         @clues += '○ '
       end
 
@@ -56,18 +60,22 @@ module Play_Game
     end
 
     @clues = ''
-    i = 0
+    @pos1 = false
+    @pos2 = false
+    @pos3 = false
+    @pos4 = false
 
+    i = 0
     until i == 4
-      if solution[i] == guess[i] # checks for the right number in the right position
+      if solution[i] == guess[i]
         @clues += '● '
-      elsif solution[0] == guess[i] && guess[0] != solution[0] # checks for the right number in the wrong position
+      elsif solution[0] == guess[i] && guess[0] != solution[0] && @pos1 == false
         @clues += '○ '
-      elsif solution[1] == guess[i] && guess[1] != solution[1]
+      elsif solution[1] == guess[i] && guess[1] != solution[1] && @pos2 == false
         @clues += '○ '
-      elsif solution[2] == guess[i] && guess[2] != solution[2]
+      elsif solution[2] == guess[i] && guess[2] != solution[2] && @pos3 == false
         @clues += '○ '
-      elsif solution[3] == guess[i] && guess[3] != solution[3]
+      elsif solution[3] == guess[i] && guess[3] != solution[3] && @pos4 == false
         @clues += '○ '
       end
 
