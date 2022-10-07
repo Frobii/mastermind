@@ -507,7 +507,6 @@ class Computer
     end
   end
 
-
   def initialize_game(playerCode)
     @codeToCrack = playerCode
     
@@ -556,7 +555,11 @@ class Computer
 
     puts "\n"
     sleep 0.25
+
+    @newGuess = check_result(@codeToCrack, @clues1, @clues2, @clues3, @cpuGuess1, @cpuGuess2, @cpuGuess3)
+
   end
 end
+
 
 # STILL NEED TO ADD ORDER_CLUES FROM v2cpu.rb
