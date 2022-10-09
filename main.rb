@@ -31,7 +31,7 @@ def player_vs_computer
   end
 end
 
-#player_vs_computer()
+player_vs_computer()
 
 cpu = Computer.new
 
@@ -39,8 +39,4 @@ p1 = Player.new
 
 cpu.initialize_game(p1.create_code)
 
-# p cpu.random_guess
-
-# cpu.computer_play(p1.playerCode, cpu.randomGuess)
-
-# cpu.check_guess(cpu.randomGuess, cpu.clues)
+cpu.order_clues(p1.playerCode, cpu.newGuess)
