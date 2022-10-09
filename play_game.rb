@@ -26,12 +26,16 @@ module Play_Game
           @clues += '● '
         elsif solution[0] == guess[i] && guess[0] != solution[0] && @pos1 == false # checks for the right number in the wrong position
           @clues += '○ '
+          @pos1 = true
         elsif solution[1] == guess[i] && guess[1] != solution[1] && @pos2 == false
           @clues += '○ '
+          @pos2 = true
         elsif solution[2] == guess[i] && guess[2] != solution[2] && @pos3 == false
           @clues += '○ '
+          @pos3 = true
         elsif solution[3] == guess[i] && guess[3] != solution[3] && @pos4 == false
           @clues += '○ '
+          @pos4 = true
         end
   
         i += 1

@@ -15,6 +15,7 @@ def player_vs_computer
 
   i = 1
   until i == 13
+    puts "\n"
     puts "Guess #{i} / 12".green
     if player1.human_play(computerSolution) == '● ● ● ● '
       puts "\n"
@@ -31,12 +32,62 @@ def player_vs_computer
   end
 end
 
-player_vs_computer()
+def computer_vs_player
+  cpu = Computer.new
 
-cpu = Computer.new
+  p1 = Player.new
 
-p1 = Player.new
+  cpu.initialize_game(p1.create_code)
 
-cpu.initialize_game(p1.create_code)
+  cpu.order_clues(p1.playerCode, cpu.newGuess)
+end
 
-cpu.order_clues(p1.playerCode, cpu.newGuess)
+def choose_and_play
+
+  def replay_decision()
+    puts "\n"
+    puts "Would you like to play again? y/n".bold
+
+    replayChoice = gets.chomp.to_s.upcase
+  
+    if replayChoice == "Y"
+      puts "\n"
+      choose_and_play()
+    elsif replayChoice == "N"
+      puts "\n"
+      puts "Thanks for playing!".bold.light_blue
+    else 
+      puts "\n"
+      puts "Please make a valid input".red
+      replay_decision()
+    end
+  end
+
+  puts "\n"
+
+  puts "Choose your game mode".bold.blue
+
+  puts "\n"
+
+  puts "Enter A ".bold + "- Guess a CPU generated code"
+  puts "Enter B ".bold + "- Create a code for the CPU to guess"
+
+  puts "\n"
+
+  modeChoice = gets.chomp.to_s.upcase
+
+  if modeChoice == "A"
+    player_vs_computer()
+  elsif modeChoice == "B"
+    computer_vs_player()
+  else
+    puts "\n"
+    puts "Please make a valid input".red
+    choose_and_play()
+  end
+
+  replay_decision()
+
+end
+
+choose_and_play()

@@ -5,6 +5,7 @@ class Player
   attr_reader :playerCode
   
   def create_code
+    puts "\n"
     puts 'Enter a four digit code of numbers 1-6 for the computer to crack '
     @playerCode = gets.chomp.to_s.split('')
 
